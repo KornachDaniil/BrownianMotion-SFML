@@ -108,7 +108,7 @@ int main()
 	int qofmols;
 	bool start_simulation = false;
 	bool interaction_mode = false;
-	bool collision_mode = false;
+	bool collision_mode = true;
 	bool following_mode = false;
 	float speedmol;
 	float temp = 0;
@@ -315,7 +315,7 @@ int main()
 							if (cd > 40)
 							{
 								if (temp > -223) 
-									temp -= 50; 
+									temp -= 1500; 
 								else 
 									temp = -273;
 								cd = 0;
@@ -328,7 +328,7 @@ int main()
 						{
 							if (temp > -273 && cd > 40)
 							{
-								temp -= 1;
+								temp -= 500;
 								cd = 0;
 								cds[1] = 0;
 								speedmol = _speedmol;
@@ -339,7 +339,7 @@ int main()
 						{
 							if (cd > 40)
 							{
-								temp += 1;
+								temp += 500;
 								cd = 0;
 								cds[2] = 0;
 								speedmol = _speedmol;
@@ -350,7 +350,7 @@ int main()
 						{
 							if (cd > 40)
 							{
-								temp += 50;
+								temp += 1500;
 								cd = 0;
 								cds[3] = 0;
 								speedmol = _speedmol;
@@ -402,7 +402,7 @@ int main()
 							if (cd > 40)
 							{
 								if (temp > 217) 
-									temp -= 500; 
+									temp -= 3000; 
 								else 
 									temp = -273;
 								cd = 0;
@@ -415,7 +415,7 @@ int main()
 						{
 							if (cd > 40)
 							{
-								temp += 500;
+								temp += 3000;
 								cd = 0;
 								cds[9] = 0;
 								speedmol = _speedmol;
