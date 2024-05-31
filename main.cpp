@@ -253,10 +253,6 @@ int main()
 				{//если нажата клавиша мыши
 					if (event.key.code == Mouse::Left)
 					{//а именно левая
-
-						float _speedmol = (sqrt(3 * (temp + 273)) * 0.4175 * 1.17) / sqrt(molgasmolmass); // Расчитываем скорость малекул
-						int _gofmols = int((gasmass / gasmolmass) * 1000);
-
 						if (s_exit.getGlobalBounds().contains(pos.x, pos.y))//и при этом координата курсора попадает в спрайт s_exit
 						{
 							s_exit.setColor(Color::Green);
@@ -320,7 +316,7 @@ int main()
 									temp = -273;
 								cd = 0;
 								cds[0] = 0;
-								speedmol = _speedmol;
+								speedmol = (sqrt(3 * (temp + 273)) * 0.4175 * 1.17) / sqrt(molgasmolmass);
 								Set_xs_ys(stuff, speedmol, cs, sn);
 							}
 						}
@@ -331,7 +327,7 @@ int main()
 								temp -= 500;
 								cd = 0;
 								cds[1] = 0;
-								speedmol = _speedmol;
+								speedmol = (sqrt(3 * (temp + 273)) * 0.4175 * 1.17) / sqrt(molgasmolmass);
 								Set_xs_ys(stuff, speedmol, cs, sn);
 							}
 						}
@@ -342,7 +338,7 @@ int main()
 								temp += 500;
 								cd = 0;
 								cds[2] = 0;
-								speedmol = _speedmol;
+								speedmol = (sqrt(3 * (temp + 273)) * 0.4175 * 1.17) / sqrt(molgasmolmass);
 								Set_xs_ys(stuff, speedmol, cs, sn);
 							}
 						}
@@ -353,7 +349,7 @@ int main()
 								temp += 1500;
 								cd = 0;
 								cds[3] = 0;
-								speedmol = _speedmol;
+								speedmol = (sqrt(3 * (temp + 273)) * 0.4175 * 1.17) / sqrt(molgasmolmass);
 								Set_xs_ys(stuff, speedmol, cs, sn);
 							}
 						}
@@ -364,7 +360,7 @@ int main()
 								gasmass -= 1;
 								cd = 0;
 								cds[4] = 0;
-								qofmols = _gofmols;
+								qofmols = int((gasmass / gasmolmass) * 1000);
 							}
 						}
 						if (cds[5] > 100 && s_stuff[5].getGlobalBounds().contains(pos.x, pos.y))//и при этом координата курсора попадает в спрайт s_stuff[5] // Mass -
@@ -374,7 +370,7 @@ int main()
 								gasmass -= 0.1;
 								cd = 0;
 								cds[5] = 0;
-								qofmols = _gofmols;
+								qofmols = int((gasmass / gasmolmass) * 1000);
 							}
 						}
 						if (cds[6] > 100 && s_stuff[6].getGlobalBounds().contains(pos.x, pos.y))//и при этом координата курсора попадает в спрайт s_stuff[6] // Mass +
@@ -384,7 +380,7 @@ int main()
 								gasmass += 0.1;
 								cd = 0;
 								cds[6] = 0;
-								qofmols = _gofmols;
+								qofmols = int((gasmass / gasmolmass) * 1000);
 							}
 						}
 						if (cds[7] > 100 && s_stuff[7].getGlobalBounds().contains(pos.x, pos.y))//и при этом координата курсора попадает в спрайт s_stuff[7] // Mass ++
@@ -394,7 +390,7 @@ int main()
 								gasmass += 1;
 								cd = 0;
 								cds[7] = 0;
-								qofmols = _gofmols;
+								qofmols = int((gasmass / gasmolmass) * 1000);
 							}
 						}
 						if (cds[8] > 100 && s_stuff[8].getGlobalBounds().contains(pos.x, pos.y))//и при этом координата курсора попадает в спрайт s_stuff[8] // Temp ---
@@ -407,7 +403,7 @@ int main()
 									temp = -273;
 								cd = 0;
 								cds[8] = 0;
-								speedmol = _speedmol;
+								speedmol = (sqrt(3 * (temp + 273)) * 0.4175 * 1.17) / sqrt(molgasmolmass);
 								Set_xs_ys(stuff, speedmol, cs, sn);
 							}
 						}
@@ -418,7 +414,7 @@ int main()
 								temp += 3000;
 								cd = 0;
 								cds[9] = 0;
-								speedmol = _speedmol;
+								speedmol = (sqrt(3 * (temp + 273)) * 0.4175 * 1.17) / sqrt(molgasmolmass);
 								Set_xs_ys(stuff, speedmol, cs, sn);
 							}
 						}
@@ -454,12 +450,10 @@ int main()
 					{
 						if (i != u)
 						{
-							// Часто вычисляемые значения:
-							// 1.
 							float _stuff_x = stuff[i].x - stuff[u].x;
 							float _stuff_y = stuff[i].y - stuff[u].y;
 
-							float da = sqrt(_stuff_x * _stuff_x + _stuff_y * _stuff_y); // Смотреть "Часто вычисляемые значения" пункт 1
+							float da = sqrt(_stuff_x * _stuff_x + _stuff_y * _stuff_y); 
 							if (da < min)
 								min = da;
 							if (min > 255)
@@ -467,10 +461,6 @@ int main()
 							if (da < r * 2 && collision_mode == true)
 							{
 								float _time = time / 1000;
-								/*float _stuff_i_x_xs = stuff[i].x + stuff[i].xs * _time;
-								float _stuff_u_x_xs = stuff[u].x + stuff[u].xs * _time;
-								float _stuff_i_y_ys = stuff[i].y + stuff[i].ys * _time;
-								float _stuff_u_y_ys = stuff[u].y + stuff[u].ys * _time;*/
 								float a1, a2;
 								a1 = (stuff[i].a + stuff[u].a) / 2;
 								a2 = a1 + 180;
@@ -549,7 +539,7 @@ int main()
 			std::ostringstream thing_temp;
 			thing_temp << "Temp ";
 			thing_temp << int(temp);
-			thing_temp << " C";
+			thing_temp << " K";
 			text.setString(thing_temp.str());//задаем строку тексту и вызываем сформированную выше строку методом .str() 
 			text.setPosition(getviewx() - int(sw / 2) + int(sw / 455), getviewy() - int(sh / 2) + stuffy);//задаем позицию текста, отступая от центра камеры
 			window.draw(text);
