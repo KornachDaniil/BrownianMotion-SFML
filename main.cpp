@@ -40,7 +40,7 @@ void Set_Texture_s_mol(Sprite s_mol[], Texture &mol_t)
 	s_mol[8].setTextureRect(IntRect(170, 170, 85, 85));
 }
 
-void Test(molsstuff stuff[], float& speedmol, float& cs, float& sn, int &i, int &u)
+void Set_Direction_Impact(molsstuff stuff[], float& speedmol, float& cs, float& sn, int &i, int &u)
 {
 	cs = cos(stuff[i].a * 0.0175);
 	sn = sin(stuff[i].a * 0.0175);
@@ -130,6 +130,8 @@ int main()
 	for (int i = 0; i < 10; i++) // Инициализация
 		cds[i] = 0;
 
+	// Утсновка необходимых ассетов для интерфейса 
+	//-----------------------------------------------------------------------------------------------------------------
 	Font font;
 	font.loadFromFile("font.ttf");
 	Text text("", font, 24);
@@ -198,10 +200,12 @@ int main()
 	// Создание кнопок выбора необходимого вещества
 	Sprite s_mol[9];
 	Set_Texture_s_mol(s_mol, mol_t);
+	//-----------------------------------------------------------------------------------------------------------------
 
 	CircleShape shapeshow[1000];
 	molsstuff stuff[1000];
 
+	// Создание окна для симуляции
 	RenderWindow window(sf::VideoMode(sw, sh), "Simulation", Style::Default);
 	window.setVerticalSyncEnabled(true);
 	view.reset(sf::FloatRect(0, 0, sw, sh));
@@ -226,6 +230,8 @@ int main()
 
 	while (window.isOpen())
 	{
+		// Симуляция броуновского движения частиц
+		//-----------------------------------------------------------------------------------------------------------------
 		if (start_simulation)
 		{ // start_simulation == true
 			float time = clock.getElapsedTime().asMilliseconds();
@@ -249,6 +255,9 @@ int main()
 			{
 				if (event.type == sf::Event::Closed)
 					window.close();
+
+				// Обработка нажания кнопок интерфейса в симуляции 
+				//-----------------------------------------------------------------------------------------------------------------
 				if (event.type == Event::MouseButtonPressed)
 				{//если нажата клавиша мыши
 					if (event.key.code == Mouse::Left)
@@ -420,13 +429,11 @@ int main()
 						}
 					}
 				}
+				//-----------------------------------------------------------------------------------------------------------------
 			}
-			//`````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````
-
+			
 			if (gasmass < 0.1) 
 				gasmass = 0.1;
-
-
 
 			// Передвижение частиц
 			for (int i = 0; i < qofmols; i++)
@@ -440,9 +447,10 @@ int main()
 				shapeshow[i].setPosition(stuff[i].x, stuff[i].y);
 			}
 
-
+			// Вычисление направления при столкновении частиц 
+			//-----------------------------------------------------------------------------------------------------------------
 			if (interaction_mode == true || collision_mode == true)
-			{ ///////////////
+			{
 				for (int i = 0; i < qofmols; i++)
 				{
 					float min = 255;
@@ -470,18 +478,19 @@ int main()
 									a2 = a2 - 360;
 								stuff[i].a = a1;
 								stuff[u].a = a2;
-								Test(stuff, speedmol, cs, sn, i, u);
+								Set_Direction_Impact(stuff, speedmol, cs, sn, i, u);
 								float da1 = sqrt(((stuff[i].x + stuff[i].xs * _time) - (stuff[u].x + stuff[u].xs * _time)) * ((stuff[i].x + stuff[i].xs * _time) - (stuff[u].x + stuff[u].xs * _time)) + ((stuff[i].y + stuff[i].ys * _time) - (stuff[u].y + stuff[u].ys * _time)) * ((stuff[i].y + stuff[i].ys * _time) - (stuff[u].y + stuff[u].ys * _time)));
 
 								if (da1 < da)
 								{
 									stuff[i].a = a2;
 									stuff[u].a = a1;
-									Test(stuff, speedmol, cs, sn, i, u);
+									Set_Direction_Impact(stuff, speedmol, cs, sn, i, u);
 								}
 							}
 						}
 					}
+					//-----------------------------------------------------------------------------------------------------------------
 					if (interaction_mode == true)
 					{
 						int newcolor[3];
@@ -494,7 +503,8 @@ int main()
 						shapeshow[i].setFillColor(Color(color[0] - (newcolor[0]), color[1] - (newcolor[1]), color[2] - (newcolor[2])));
 					}
 				}
-			} ///////////////
+			} 
+
 			if (following_mode == true)
 			{
 				stuff[0].x = pos.x;
@@ -557,7 +567,10 @@ int main()
 				window.draw(s_stuff[i]); // Отрисовка кнопок для увеличения Temp и Mass
 			window.display();
 		} 
+		//-----------------------------------------------------------------------------------------------------------------
 
+		// Главное меню
+		//-----------------------------------------------------------------------------------------------------------------
 		else
 		{ // start_simulation == false
 			float time = clock.getElapsedTime().asMilliseconds();
@@ -650,8 +663,10 @@ int main()
 									r = 5;
 									break;
 								}
+
 								qofmols = int((gasmass / gasmolmass) * 1000);
 								speedmol = (sqrt(3 * (temp + 273)) * 0.4175 * 1.17) / sqrt(molgasmolmass);
+
 								for (int i = 0; i < 1000; i++)
 								{
 									shapeshow[i].setRadius(r); // Установка радиуса для частиц
@@ -744,6 +759,7 @@ int main()
 			window.display();
 		}
 	}
+	//-----------------------------------------------------------------------------------------------------------------
 
 	return 0;
 }
